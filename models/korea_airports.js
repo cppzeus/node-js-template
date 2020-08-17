@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+const { log } = require('debug');
 
 // Define Schemes
 const koreaairportSchema = new mongoose.Schema({
@@ -25,19 +26,20 @@ koreaairportSchema.statics.findAll = function() {
 
 // Find one by airport name
 koreaairportSchema.statics.findOneByAirportname = function(airportname) {
-    return this.findOne({ airportname });
+    console.log(airportname);
+    return this.findOne({ airport_name: airportname });
 };
 
 // Update by airport name
 koreaairportSchema.statics.updateByAirportname = function(airportname, payload) {
     // {new: true}: return the modified documnet rather than the original. defaults to false.
-    return this.findOneAndUpdate({ airportname }, payload, { new: true });
+    return this.findOneAndUpdate({ airport_name: airportname }, payload, { new: true });
 };
 
 // Delete by airport name
 koreaairportSchema.statics.deleteByAirportname = function(airportname) {
-    return this.remove({ airportname });
+    return this.remove({ airport_name: airportname });
 };
 
 // Create Model & Export
-module.exports = mongoose.model('Info_koreaairports', koreaairportSchema);
+module.exports = mongoose.model('info_koreaairports', koreaairportSchema);

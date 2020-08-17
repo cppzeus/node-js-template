@@ -23,6 +23,15 @@ router.get('/api/koreaairports', (req, res) => {
         })
         .catch(err => res.status(500).send(err));
 });
+//R2 - Find ONe by airport name
+router.get('/api/koreaairports/:airportname', (req, res) => {
+    AirportKorea.findOneByAirportname(req.params.airportname)
+        .then((airportkoreas) => {
+            if (!airportkoreas) return res.status(404).send({ err: 'Korea airport not found' });
+            res.send(`findOne successfully: ${airportkoreas}`);
+        })
+        .catch(err => res.status(500).send(err));
+});
 // Update
 // Delete
 
