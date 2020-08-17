@@ -7,17 +7,19 @@ This application supports the [Getting Started with Node on Heroku](https://devc
 -->
 
 ## Running Locally
-
+<!--
 Make sure you have [Node.js](http://nodejs.org/) and the [Heroku CLI](https://cli.heroku.com/) installed.
+-->
+Make sure you have [Node.js](http://nodejs.org/)
 
 ```sh
-$ git clone git@github.com:jomaoppa/node-js-template.git # or clone your own fork
+$ git clone git@github.com:cppzeus/node-js-template.git # or clone your own fork
 $ cd node-js-template
 $ npm install
 $ npm start
 ```
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+Your app should now be running on [localhost:3000](http://localhost:3000/).
 
 <!--
 ## Deploying to Heroku
