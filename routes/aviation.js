@@ -13,6 +13,12 @@ router.get('/', function(req, res, next) {
 });
 
 // Create
+router.post('/api/koreaairports', (req, res) => {
+    AirportKorea.create(req.body)
+        .then(airportkoreas => res.send(airportkoreas))
+        .catch(err => res.status(500).send(err));
+});
+
 // Read
 // R1 - Full Search
 router.get('/api/koreaairports', (req, res) => {
@@ -32,7 +38,19 @@ router.get('/api/koreaairports/:airportname', (req, res) => {
         })
         .catch(err => res.status(500).send(err));
 });
+
 // Update
+router.put('/api/koreaairports/:airportname', (req, res) => {
+    AirportKorea.updateByTodoid(req.params.airportname, req.body)
+        .then(airportkoreas => res.send(airportkoreas))
+        .catch(err => res.status(500).send(err));
+});
+
 // Delete
+router.delete('/api/koreaairports/:airportname', (req, res) => {
+    AirportKorea.deleteByTodoid(req.params.airportname)
+        .then(() => res.sendStatus(200))
+        .catch(err => res.status(500).send(err));
+});
 
 module.exports = router;
