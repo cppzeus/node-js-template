@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var path = require('path');
-var db = require('../db_aviation');
+var koreaairport_db = require('../db_aviation_koreaairport');
 var AirportKorea = require('../models/korea_airports');
+var worldairplane_db = require('../models/world_airplane');
 
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
@@ -13,8 +14,11 @@ router.get('/', function(req, res, next) {
     //res.send('respond with a resource');
     //res.writeHead(200, { "Content-Type": "text/html" }); //웹페이지 출력
     //fs.createReadStream("../app/apidoc/index.html").pipe(res); //index.html를 response함.
-    res.sendfile("./index.html");
+    //res.sendfile("./index.html");
 });
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Korea airports Info API
 
 // Create
 /**
@@ -45,7 +49,7 @@ router.get('/', function(req, res, next) {
  */
 router.post('/api/koreaairports', (req, res) => {
     AirportKorea.create(req.body)
-        .then(airportkoreas => res.send(airportkoreas))
+        .then(airportkoreas => res.set('content-Type', 'application/json').send(airportkoreas))
         .catch(err => res.status(500).send(err));
 });
 
@@ -105,7 +109,7 @@ router.get('/api/koreaairports', (req, res) => {
     AirportKorea.findAll()
         .then((airportkoreas) => {
             if (!airportkoreas.length) return res.status(404).send({ err: 'korea airports not found' });
-            res.send(`find successfully: ${airportkoreas}`);
+            res.set('content-Type', 'application/json').send(`find successfully: ${airportkoreas}`);
         })
         .catch(err => res.status(500).send(err));
 });
@@ -150,7 +154,7 @@ router.get('/api/koreaairports/:airportname', (req, res) => {
     AirportKorea.findOneByAirportname(req.params.airportname)
         .then((airportkoreas) => {
             if (!airportkoreas) return res.status(404).send({ err: 'Korea airport not found' });
-            res.send(`findOne successfully: ${airportkoreas}`);
+            res.set('content-Type', 'application/json').send(`findOne successfully: ${airportkoreas}`);
         })
         .catch(err => res.status(500).send(err));
 });
@@ -189,7 +193,7 @@ router.get('/api/koreaairports/:airportname', (req, res) => {
  */
 router.put('/api/koreaairports/:airportname', (req, res) => {
     AirportKorea.updateByTodoid(req.params.airportname, req.body)
-        .then(airportkoreas => res.send(airportkoreas))
+        .then(airportkoreas => res.set('content-Type', 'application/json').send(airportkoreas))
         .catch(err => res.status(500).send(err));
 });
 
@@ -215,8 +219,36 @@ router.put('/api/koreaairports/:airportname', (req, res) => {
  */
 router.delete('/api/koreaairports/:airportname', (req, res) => {
     AirportKorea.deleteByTodoid(req.params.airportname)
-        .then(() => res.sendStatus(200))
+        .then(() => res.set('content-Type', 'application/json').sendStatus(200))
         .catch(err => res.status(500).send(err));
+});
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// World Airplane Info API
+
+// Create
+// - No Providing
+router.post('/api/worldairplane', (req, res) => {
+    err => res.status(500).send(err);
+});
+
+// Read
+router.get('/api/worldairplane', worldairplane_db.findAllAirplaneInfos);
+
+router.get('/api/worldairplane/maker/:maker', worldairplane_db.findAirplaneInfobyMaker);
+
+router.get('/api/worldairplane/icao/:icao', worldairplane_db.findAirplaneInfobyicao);
+
+// Update
+// - No Providing
+router.put('/api/worldairplane', (req, res) => {
+    err => res.status(500).send(err);
+});
+
+// Delete
+// - No Providing
+router.delete('/api/worldairplane', (req, res) => {
+    err => res.status(500).send(err);
 });
 
 module.exports = router;

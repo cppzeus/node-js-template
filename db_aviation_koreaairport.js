@@ -4,7 +4,7 @@ require('dotenv').config();
 // DEPENDENCIES
 var mongoose = require('mongoose');
 
-var db_uri = process.env.DB_PROTOCOL + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.COL_AVIATION;
+var db_uri = process.env.MONGO_DB_PROTOCOL + process.env.DB_USER + ':' + process.env.DB_PASS + '@' + process.env.MONGO_DB_HOST + ':' + process.env.MONGO_DB_PORT + '/' + process.env.COL_AVIATION;
 console.log("db_uri=>" + db_uri);
 
 // Using native Promise for Node.js
